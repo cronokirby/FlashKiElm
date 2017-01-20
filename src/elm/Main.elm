@@ -54,8 +54,10 @@ view : Model -> Html Msg
 view model =
     div []
       [ input [ placeholder "Deck name"
+              , value model.deckInput.name
               , onInput NameInput ] []
       , input [ placeholder "Deck language"
+              , value model.deckInput.language
               , onInput LangInput ] []
       , button [ onClick Add ] [ text "add Deck" ]
       , div [] (List.map viewDeck model.deckList)
@@ -63,7 +65,18 @@ view model =
 
 viewDeck : Deck -> Html Msg
 viewDeck {name, language} =
-    text (name ++ language)
+    div []
+      [ table []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Name" ]
+                    , th [] [ text "Language" ]
+                    ]
+                ]
+            , tbody [] (List.map (\n -> td [] [span [] [text n]]) [name, language])
+            ]
+      ]
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ = Sub.none
