@@ -4,7 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
+
 {- Model -}
+
 type alias Deck = { name : String, language : String }
 
 type alias Model = { deckInput : Deck
