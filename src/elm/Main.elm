@@ -19,10 +19,14 @@ main = Html.program { init = init
 
 type alias Deck = { name : String, language : String }
 
-type alias Model = { deckInput : Deck, deckList : List Deck }
+type alias Model = { deckInput : Deck
+                   , deckList : List Deck
+                   , currentView : ModelView }
+
+type ModelView = ModelView (Model -> Html Msg)
 
 init : (Model, Cmd Msg)
-init = (Model (Deck "" "") [], Cmd.none)
+init = (Model (Deck "" "") [] (ModelView deckListView), Cmd.none)
 
 
 {- Update -}
@@ -30,6 +34,8 @@ init = (Model (Deck "" "") [], Cmd.none)
 type Msg = NameInput String
          | LangInput String
          | Add
+         | ChangeView (Model -> Html Msg)
+
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
@@ -48,10 +54,14 @@ update msg model = case msg of
             deckInput = Deck "" "" }
         , Cmd.none )
 
+    ChangeView newView ->
+        ( { model | currentView = ModelView newView }, Cmd.none )
+
 {- View -}
 
-view : Model -> Html Msg
-view model =
+-- The standard view, presenting a list of the current decks
+deckListView : Model -> Html Msg
+deckListView model =
     div []
       [ input [ placeholder "Deck name"
               , value model.deckInput.name
@@ -67,15 +77,28 @@ viewDeck : Deck -> Html Msg
 viewDeck {name, language} =
     div []
       [ table []
-            [ thead []
-                [ tr []
-                    [ th [] [ text "Name" ]
-                    , th [] [ text "Language" ]
-                    ]
-                ]
-            , tbody [] (List.map (\n -> td [] [span [] [text n]]) [name, language])
+        [ thead []
+          [ tr []
+            [ th [] [ text "Name" ]
+            , th [] [ text "Language" ]
             ]
+          ]
+        , tbody [] (List.map (\n -> td [] [span [] [text n]]) [name, language])
+        ]
       ]
+
+
+helloView : Model -> Html Msg
+helloView _ = text "hello world"
+
+-- Chosen to be able to switch views with a button
+view : Model -> Html Msg
+view model = case model.currentView of
+    ModelView currentView ->
+      div []
+        [ button [ onClick (ChangeView helloView) ] [ text "Hello View" ]
+        , button [ onClick (ChangeView deckListView) ] [ text "Deck View" ]
+        , currentView model ]
 
 
 subscriptions : Model -> Sub Msg
