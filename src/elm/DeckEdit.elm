@@ -42,14 +42,15 @@ update msg model = case msg of
         { model |
             previous = Maybe.withDefault [] (List.tail model.previous),
             current  = Maybe.withDefault (Card "" "") (List.head model.previous),
-            rest     = model.current :: model.previous }
+            rest     = model.current :: model.rest }
 
 {- View -}
 
 view : Model -> Html Msg
 view model =
     div []
-    [ button [ onClick Previous ] [ text "Previous" ]
+    [ button [ disabled (List.isEmpty model.previous)
+             , onClick Previous ] [ text "Previous" ]
     , input [ placeholder "Front Side"
             , value model.current.front
             , onInput FrontInput ] []
