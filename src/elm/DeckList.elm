@@ -31,9 +31,9 @@ update msg model = case msg of
         let oldDeck = model.deckInput
         in { model | deckInput = { oldDeck | language = string } }
     Add ->
-        ( { model |
+        { model |
             deckList = model.deckInput :: model.deckList,
-            deckInput = Deck "" "" } )
+            deckInput = Deck "" "" }
 
 
 {- View -}
