@@ -26,10 +26,10 @@ update : Msg -> Model -> Model
 update msg model = case msg of
     NameInput string ->
         let oldDeck = model.deckInput
-        in ( { model | deckInput = { oldDeck | name = string } } )
+        in { model | deckInput = { oldDeck | name = string } }
     LangInput string ->
         let oldDeck = model.deckInput
-        in ( { model | deckInput = { oldDeck | language = string } } )
+        in { model | deckInput = { oldDeck | language = string } }
     Add ->
         ( { model |
             deckList = model.deckInput :: model.deckList,
