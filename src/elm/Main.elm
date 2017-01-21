@@ -14,7 +14,6 @@ main = Html.program { init = init
 
 {- Model -}
 
-
 type alias Model = { deckList : DeckList.Model
                    , currentView : ModelView }
 
@@ -40,6 +39,7 @@ update msg model = case msg of
     ChangeView newView ->
         ( { model | currentView = ModelView newView }, Cmd.none )
 
+
 {- View -}
 
 helloView : Model -> Html Msg
@@ -47,6 +47,7 @@ helloView _ = text "hello world"
 
 deckListView : Model -> Html Msg
 deckListView model = Html.map DeckList (DeckList.view model.deckList)
+
 
 -- Chosen to be able to switch views with a button
 view : Model -> Html Msg
@@ -59,5 +60,6 @@ view model = case model.currentView of
         , (currentView model) ]
 
 
+{- Subscriptions -}
 subscriptions : Model -> Sub Msg
 subscriptions _ = Sub.none

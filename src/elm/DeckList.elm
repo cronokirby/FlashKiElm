@@ -1,4 +1,4 @@
-module DeckList exposing (..)
+module DeckList exposing (Model, Msg, init, update, view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
