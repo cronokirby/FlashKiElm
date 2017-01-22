@@ -1,6 +1,12 @@
-module DeckList exposing (Model, Msg, init, update, view)
+module DeckList exposing (Model
+                         , Msg(Edit)
+                         , createEdit
+                         , init
+                         , update
+                         , view)
 
 import Html exposing (..)
+import Html.Events exposing (..)
 
 import DeckEdit exposing (Deck)
 
@@ -11,12 +17,23 @@ type alias Model = { list : List Deck }
 init : Model
 init = Model []
 
+
 {- Update -}
 
-type Msg = Noth
+type Msg = Edit Deck
 
 update : Msg -> Model -> Model
 update msg model = model
+
+createEdit : Deck -> DeckEdit.Model
+createEdit deck =
+    let {name, language, cards} = deck
+
+    in  { previous = []
+        , current = Maybe.withDefault (DeckEdit.Card "" "") (List.head cards)
+        , rest = Maybe.withDefault [] (List.tail cards)
+        , saved = deck
+        , deckValidation = ""}
 
 {- View -}
 
@@ -27,7 +44,7 @@ view model =
       [ div [] (List.map viewDeck model.list) ]
 
 viewDeck : Deck -> Html Msg
-viewDeck {name, language} =
+viewDeck deck =
     div []
       [ table []
         [ thead []
@@ -36,6 +53,9 @@ viewDeck {name, language} =
             , th [] [ text "Language" ]
             ]
           ]
-        , tbody [] (List.map (\n -> td [] [span [] [text n]]) [name, language])
+        , tbody []
+          (  List.map (\n -> td [] [span [] [text n]]) [deck.name, deck.language]
+          ++ [ td [] [ button [ onClick <| Edit deck ] [ text "Edit" ] ] ]
+          )
         ]
       ]

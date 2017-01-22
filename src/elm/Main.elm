@@ -39,9 +39,12 @@ type Msg = DeckList DeckList.Msg
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
 
-    DeckList msg ->
-        let deckList = DeckList.update msg model.deckList
-        in ( { model | deckList = deckList }, Cmd.none )
+    DeckList msg -> case msg of
+        Edit deck ->
+            let deckEdit = DeckList.createEdit deck
+            in ( { model |
+                    deckEdit = deckEdit,
+                    currentView = ModelView deckEditView }, Cmd.none )
 
     DeckEdit msg -> case msg of
         Save ->
@@ -54,8 +57,7 @@ update msg model = case msg of
                     currentView = ModelView deckListView }, Cmd.none )
         _ ->
             let deckEdit = DeckEdit.update msg model.deckEdit
-            in ( { model |
-                    deckEdit = deckEdit }, Cmd.none )
+            in ( { model | deckEdit = deckEdit }, Cmd.none )
 
     ChangeView newView ->
         ( { model | currentView = ModelView newView }, Cmd.none )
