@@ -12,10 +12,11 @@ type alias Card = { front : String, back : String }
 -- The first element of previous is the element right before the current card
 type alias Model = { previous : List Card
                    , current : Card
-                   , rest : List Card }
+                   , rest : List Card
+                   , saved : List Card}
 
 init : Model
-init = Model [] (Card "" "") []
+init = Model [] (Card "" "") [] []
 
 
 {- Update -}
@@ -24,6 +25,8 @@ type Msg = FrontInput String
          | BackInput String
          | Next
          | Previous
+         | Save
+
 
 update : Msg -> Model -> Model
 update msg model = case msg of
@@ -43,6 +46,10 @@ update msg model = case msg of
             previous = Maybe.withDefault [] (List.tail model.previous),
             current  = Maybe.withDefault (Card "" "") (List.head model.previous),
             rest     = model.current :: model.rest }
+    Save ->
+        { model | saved = List.reverse model.previous
+                       ++ (model.current :: model.rest) }
+
 
 {- View -}
 
@@ -58,4 +65,5 @@ view model =
             , value model.current.back
             , onInput BackInput ] []
     , button [ onClick Next ] [ text "Next" ]
+    , button [ onClick Save ] [ text "Save" ]
     ]
