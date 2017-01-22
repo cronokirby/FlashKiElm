@@ -101,23 +101,27 @@ validateInput string =
 
 view : Model -> Html Msg
 view model =
-    div []
-    [ input [ placeholder "Name"
-            , value model.saved.name
-            , onInput NameInput ] []
-    , input [ placeholder "Language"
-            , value model.saved.language
-            , onInput LangInput ] []
-    , button [ disabled (List.isEmpty model.previous)
-             , onClick Previous ] [ text "Previous" ]
-    , input [ placeholder "Front Side"
-            , value model.current.front
-            , onInput FrontInput ] []
-    , input [ placeholder "Back Side"
-            , value model.current.back
-            , onInput BackInput ] []
-    , button [ onClick Next ] [ text "Next" ]
-    , button [ onClick (validateDeck model.saved) ]
-             [ text "Save" ]
-    , div [] [ text (model.deckValidation)]
-    ]
+    let cardFront = model.current.front
+        cardBack  = model.current.back
+    in  div []
+        [ input [ placeholder "Name"
+                , value model.saved.name
+                , onInput NameInput ] []
+        , input [ placeholder "Language"
+                , value model.saved.language
+                , onInput LangInput ] []
+        , button [ disabled (List.isEmpty model.previous)
+                 , onClick Previous ] [ text "Previous" ]
+        , input [ placeholder "Front Side"
+                , value cardFront
+                , onInput FrontInput ] []
+        , input [ placeholder "Back Side"
+                , value cardBack
+                , onInput BackInput ] []
+        , button [ disabled (String.isEmpty cardFront ||
+                             String.isEmpty cardBack)
+                 , onClick Next ] [ text "Next" ]
+        , button [ onClick (validateDeck model.saved) ]
+                 [ text "Save" ]
+        , div [] [ text (model.deckValidation)]
+        ]
