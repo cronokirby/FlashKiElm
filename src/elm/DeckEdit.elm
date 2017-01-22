@@ -23,7 +23,9 @@ init = Model [] (Card "" "") [] (Deck "" "" [])
 
 {- Update -}
 
-type Msg = FrontInput String
+type Msg = NameInput String
+         | LangInput String
+         | FrontInput String
          | BackInput String
          | Next
          | Previous
@@ -32,6 +34,12 @@ type Msg = FrontInput String
 
 update : Msg -> Model -> Model
 update msg model = case msg of
+    NameInput string ->
+        let oldDeck = model.saved
+        in { model | saved = { oldDeck | name = string } }
+    LangInput string ->
+        let oldDeck = model.saved
+        in { model | saved = { oldDeck | language = string } }
     FrontInput string ->
         let oldCard = model.current
         in { model | current = { oldCard | front = string } }
@@ -60,7 +68,13 @@ update msg model = case msg of
 view : Model -> Html Msg
 view model =
     div []
-    [ button [ disabled (List.isEmpty model.previous)
+    [ input [ placeholder "Name"
+            , value model.saved.name
+            , onInput NameInput ] []
+    , input [ placeholder "Language"
+            , value model.saved.language
+            , onInput LangInput ] []
+    , button [ disabled (List.isEmpty model.previous)
              , onClick Previous ] [ text "Previous" ]
     , input [ placeholder "Front Side"
             , value model.current.front
