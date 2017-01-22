@@ -57,10 +57,11 @@ update msg model = case msg of
             current  = Maybe.withDefault (Card "" "") (List.head model.previous),
             rest     = model.current :: model.rest }
     Save ->
-        let cards = List.reverse model.previous
+        let oldDeck = model.saved
+            cards = List.reverse model.previous
                  ++ (model.current :: model.rest)
-            deck = Deck "ahhh" "german" cards
-        in { model | saved = deck }
+
+        in { model | saved = { oldDeck | cards = cards } }
 
 
 {- View -}
