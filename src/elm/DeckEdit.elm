@@ -9,14 +9,16 @@ import Html.Events exposing (..)
 -- Represents a flash card
 type alias Card = { front : String, back : String }
 
+type alias Deck = { name : String, language : String, cards: List Card }
+
 -- The first element of previous is the element right before the current card
 type alias Model = { previous : List Card
                    , current : Card
                    , rest : List Card
-                   , saved : List Card}
+                   , saved : Deck}
 
 init : Model
-init = Model [] (Card "" "") [] []
+init = Model [] (Card "" "") [] (Deck "" "" [])
 
 
 {- Update -}
@@ -47,8 +49,10 @@ update msg model = case msg of
             current  = Maybe.withDefault (Card "" "") (List.head model.previous),
             rest     = model.current :: model.rest }
     Save ->
-        { model | saved = List.reverse model.previous
-                       ++ (model.current :: model.rest) }
+        let cards = List.reverse model.previous
+                 ++ (model.current :: model.rest)
+            deck = Deck "ahhh" "german" cards
+        in { model | saved = deck }
 
 
 {- View -}

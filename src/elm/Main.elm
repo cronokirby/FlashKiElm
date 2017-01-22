@@ -46,8 +46,11 @@ update msg model = case msg of
     DeckEdit msg -> case msg of
         Save ->
             let deckEdit = DeckEdit.update msg model.deckEdit
+                deckList = DeckList.Model
+                           (model.deckEdit.saved :: model.deckList.list)
             in ( { model |
                     deckEdit = deckEdit,
+                    deckList = deckList,
                     currentView = ModelView deckListView }, Cmd.none )
         _ ->
             let deckEdit = DeckEdit.update msg model.deckEdit
