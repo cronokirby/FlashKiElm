@@ -11,6 +11,9 @@ type alias Card = { front : String, back : String }
 
 type alias Deck = { name : String, language : String, cards: List Card }
 
+emptyDeck : Deck
+emptyDeck = (Deck "" "" [])
+
 -- The first element of previous is the element right before the current card
 type alias Model = { previous : List Card
                    , current : Card
@@ -18,7 +21,7 @@ type alias Model = { previous : List Card
                    , saved : Deck}
 
 init : Model
-init = Model [] (Card "" "") [] (Deck "" "" [])
+init = Model [] (Card "" "") [] emptyDeck 
 
 
 {- Update -}
@@ -60,7 +63,6 @@ update msg model = case msg of
         let oldDeck = model.saved
             cards = List.reverse model.previous
                  ++ (model.current :: model.rest)
-
         in { model | saved = { oldDeck | cards = cards } }
 
 
