@@ -41,7 +41,7 @@ createEdit deck =
 -- The standard view, presenting a list of the current decks
 view : Model -> Html Msg
 view model =
-    div []
+    div [class "deck-list"]
       [ div [] (List.map viewDeck model.list) ]
 
 viewDeck : Deck -> Html Msg

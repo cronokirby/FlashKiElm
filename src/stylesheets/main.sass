@@ -6,10 +6,46 @@ body
     margin-left: 20px
     font-family: "Verdana"
 
+.deck-list
+    width: 300px
+    height: 615px
+    float: left
+    $dl-border: solid 3px
+    border-left: $dl-border
+    border-right: $dl-border
+
 .Deck
     color: $grey
     padding: 4px
+    margin-left: auto
+    margin-right: auto
     margin-top: 14px
     width: 25%
     border: solid 2px $lavender
     border-left: solid thick $dark-lavender
+
+
+$nav-height: 80px
+
+.nav-buttons
+    float: top
+    height: $nav-height + 8
+    vertical-align: top
+    background-color: #afa8c2
+
+
+.nav-button
+    vertical-align: bottom
+    height: $nav-height
+    width: $nav-height + 4
+    margin: 8px
+    margin-right: 3px
+    background-color: white
+    border: solid 0px
+    border-top: solid 2px $dark-lavender
+    border-right: solid 2px $dark-lavender
+    border-left: solid 2px $dark-lavender
+
+    font-size: 16px
+.nav-button:hover
+    background-color: $dark-lavender

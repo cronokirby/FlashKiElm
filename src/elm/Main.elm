@@ -86,12 +86,15 @@ view model =
     case model.currentView of
     ModelView currentView ->
       div []
-        [ button [ hidden model.editing
-                 , onClick (ChangeView False deckListView) ]
-                 [ text "Deck View" ]
-        , button [ hidden model.editing
-                 , onClick (ChangeView True deckEditView) ]
-                 [ text "New Deck" ]
+        [ div [ hidden model.editing
+              , class "nav-buttons"]
+            [ button [ class "nav-button"
+                     , onClick (ChangeView False deckListView) ]
+                     [ text "Deck View" ]
+             , button [ class "nav-button"
+                     , onClick (ChangeView True deckEditView) ]
+                     [ text "New Deck" ]
+            ]
         , (currentView model) ]
 
 
