@@ -2,3 +2,6 @@ node_modules
 dist
 elm-stuff
 *.atom-build.yml
+.sass-cache
+*.css
+*.css.map

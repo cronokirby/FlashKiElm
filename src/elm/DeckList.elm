@@ -6,6 +6,7 @@ module DeckList exposing (Model
                          , view)
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 import DeckEdit exposing (Deck)
@@ -46,7 +47,7 @@ view model =
 viewDeck : Deck -> Html Msg
 viewDeck deck =
     div []
-      [ table []
+      [ table [ class "Deck" ]
         [ thead []
           [ tr []
             [ th [] [ text "Name" ]
