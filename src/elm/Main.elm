@@ -1,9 +1,11 @@
 module Main exposing (..)
 
-
+import Color exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+
+import Material.Icons.Content exposing (add_box)
 
 import DeckList as DeckList exposing (..)
 import DeckEdit as DeckEdit exposing (..)
@@ -93,8 +95,8 @@ view model =
                      , onClick (ChangeView False deckListView) ]
                      [ text "Deck View" ]
              , button [ class "nav-button"
-                     , onClick (ChangeView True deckEditView) ]
-                     [ text "New Deck" ]
+                      , onClick (ChangeView True deckEditView) ]
+                     [ add_box black 50 ]
             ]
         , (currentView model) ]
 

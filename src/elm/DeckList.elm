@@ -10,7 +10,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
-import Material.Icons.Image exposing (edit)
+import Material.Icons.Image as Icons exposing (edit)
 
 import DeckEdit exposing (Deck)
 
@@ -60,7 +60,7 @@ viewDeck deck =
         , tbody []
           (  List.map (\n -> td [] [span [] [text n]]) [deck.name, deck.language]
           ++ [ td [] [ button [ class "deck-edit-button"
-                              , onClick <| Edit deck ] [ edit gray 24 ] ] ]
+                              , onClick <| Edit deck ] [ Icons.edit gray 24 ] ] ]
           )
         ]
       ]
