@@ -5,9 +5,12 @@ module DeckList exposing (Model
                          , update
                          , view)
 
+import Color exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+
+import Material.Icons.Image exposing (edit)
 
 import DeckEdit exposing (Deck)
 
@@ -56,7 +59,8 @@ viewDeck deck =
           ]
         , tbody []
           (  List.map (\n -> td [] [span [] [text n]]) [deck.name, deck.language]
-          ++ [ td [] [ button [ onClick <| Edit deck ] [ text "Edit" ] ] ]
+          ++ [ td [] [ button [ class "deck-edit-button"
+                              , onClick <| Edit deck ] [ edit gray 24 ] ] ]
           )
         ]
       ]

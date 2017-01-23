@@ -1,16 +1,18 @@
 $primary-color: #333
-$lavender: #b583d7
-$dark-lavender: #8b3dbf
+$ice-grey: #a9afc1
+$light-blue: #569bc7
+$dark-blue: #5155b6
 $grey: #4a5459
 body
-    margin-left: 20px
+
     font-family: "Verdana"
 
 .deck-list
+    margin-left: 7px
     width: 300px
-    height: 615px
+    height: 612px
     float: left
-    $dl-border: solid 3px
+    $dl-border: solid 3px $dark-blue
     border-left: $dl-border
     border-right: $dl-border
 
@@ -21,8 +23,21 @@ body
     margin-right: auto
     margin-top: 14px
     width: 25%
-    border: solid 2px $lavender
-    border-left: solid thick $dark-lavender
+    border: solid 2px $light-blue
+    border-left: solid thick $dark-blue
+
+
+
+.deck-edit-button
+    background-color: white
+    border: none
+    svg
+        width: 40px
+    path
+        fill: $ice-grey
+    path:hover
+        fill: $light-blue
+
 
 
 $nav-height: 80px
@@ -31,21 +46,23 @@ $nav-height: 80px
     float: top
     height: $nav-height + 8
     vertical-align: top
-    background-color: #afa8c2
-
+    background-color: #2a3c73
+    border-bottom: solid 2px $dark-blue
 
 .nav-button
     vertical-align: bottom
     height: $nav-height
     width: $nav-height + 4
     margin: 8px
+    margin-left: 8px
     margin-right: 3px
     background-color: white
     border: solid 0px
-    border-top: solid 2px $dark-lavender
-    border-right: solid 2px $dark-lavender
-    border-left: solid 2px $dark-lavender
+    border-top: solid 2px $dark-blue
+    border-right: solid 2px $dark-blue
+    border-left: solid 2px $dark-blue
 
     font-size: 16px
+
 .nav-button:hover
-    background-color: $dark-lavender
+    background-color: $dark-blue

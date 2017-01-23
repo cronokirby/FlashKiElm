@@ -1,12 +1,12 @@
 {
   "name": "flashki",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A small flashcard app",
   "main": "webpack.config.js",
   "scripts": {
     "test": "electron main.js"
   },
-  "author": "Lucas Meier",
+  "author": "Lúcás Meier",
   "license": "MIT",
   "dependencies": {
     "elm-webpack-loader": "^4.2.0"
