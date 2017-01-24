@@ -9,17 +9,25 @@ $card-view-size: $card-size * 2 + 130 + $prev-margin
     margin-left: 7px
     width: $card-view-size + 20
     height: 620px
-    border-right: solid 2px $dark-blue
-    border-left: solid 2px $dark-blue
+    border-right: solid 3px $dark-blue
+    border-left: solid 3px $dark-blue
 
 .deck-inputs
-    margin-left: 10px
+    padding-left: 10px
+    padding-top: 15px
+
     height: 60px
+    border-bottom: solid 2px $dark-blue
+
 
 .deck-input
     height: 30px
     margin-top: 5px
-    margin-left: 5px
+    margin-left: 15px
+    font-weight: bold
+    font-family: "Verdana"
+    font-size: 14px
+    color: $grey
 
 .deck-input:focus
     @extend .input
@@ -30,8 +38,10 @@ $card-view-size: $card-size * 2 + 130 + $prev-margin
     float: right
     background-color: white
     border: none
+    @extend .no_outline
 
 .card-view
+    padding-top: 20px
     width: $card-view-size
 
 .card-nav-button
@@ -42,6 +52,7 @@ $card-view-size: $card-size * 2 + 130 + $prev-margin
     svg
     path
         width: 20px
+    @extend .no_outline
 
 .card-previous
     float: left

@@ -32,7 +32,7 @@ init : (Model, Cmd Msg)
 init =
     let deckList = DeckList.init
         deckEdit = DeckEdit.init
-    in (Model deckList deckEdit (ModelView deckEditView) False, Cmd.none)
+    in (Model deckList deckEdit (ModelView deckListView) False, Cmd.none)
 
 
 {- Update -}
