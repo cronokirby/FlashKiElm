@@ -1,45 +1,16 @@
-module DeckList exposing (Model
-                         , Msg(Edit)
-                         , createEdit
-                         , init
-                         , update
-                         , view)
+module DeckList.View exposing (..)
 
 import Color exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-
 import Material.Icons.Image as Icons exposing (edit)
 
-import DeckEdit exposing (Deck)
+import DeckEdit.Models exposing (Deck)
 
-{- Model -}
+import DeckList.Models exposing (Model)
+import DeckList.Update exposing (Msg(..))
 
-type alias Model = { list : List Deck }
-
-init : Model
-init = Model [Deck "101" "German" [], Deck "101" "German" []]
-
-
-{- Update -}
-
-type Msg = Edit Deck
-
-update : Msg -> Model -> Model
-update msg model = model
-
-createEdit : Deck -> DeckEdit.Model
-createEdit deck =
-    let {name, language, cards} = deck
-
-    in  { previous = []
-        , current = Maybe.withDefault (DeckEdit.Card "" "") (List.head cards)
-        , rest = Maybe.withDefault [] (List.tail cards)
-        , saved = deck
-        , deckValidation = ""}
-
-{- View -}
 
 -- The standard view, presenting a list of the current decks
 view : Model -> Html Msg
