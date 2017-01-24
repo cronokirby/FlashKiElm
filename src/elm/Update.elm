@@ -16,13 +16,16 @@ update msg model = case msg of
         DeckList.Edit deck ->
             let deckEdit = DeckList.createEdit deck
                 deckList = DeckList.Model
-                        <| List.filter (\d -> d /= deck)
-                           model.deckList.list
+                        <| DeckList.remove deck model.deckList.list
             in ( { model |
                     deckList = deckList,
                     deckEdit = deckEdit,
                     currentView = ModelView deckEditView,
                     editing = True }, Cmd.none )
+        _ ->
+            let deckList = DeckList.update msg model.deckList
+            in ( { model | deckList = deckList }, Cmd.none )
+
 
     DeckEdit msg -> case msg of
         DeckEdit.Save ->

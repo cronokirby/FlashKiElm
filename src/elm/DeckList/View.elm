@@ -4,7 +4,11 @@ import Color exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Material.Icons.Image as Icons exposing (edit)
+import Svg exposing (Svg)
+
+import Material.Icons.Image as Icons
+import Material.Icons.Action as Icons
+
 
 import DeckEdit.Models exposing (Deck)
 
@@ -25,13 +29,27 @@ viewDeck deck =
         [ thead []
           [ tr []
             [ th [] [ text "Name" ]
-            , th [] [ text "Language" ]
+            , td [] [ text "Language" ]
+            , td [ class "deck-delete" ]
+                 [ deckButton "deck-delete-button"
+                              (Delete deck)
+                              (Icons.delete gray 24)
+                 ]
             ]
           ]
         , tbody []
           (  List.map (\n -> td [] [span [] [text n]]) [deck.name, deck.language]
-          ++ [ td [] [ button [ class "deck-edit-button"
-                              , onClick <| Edit deck ] [ Icons.edit gray 24 ] ] ]
+          ++ [ td [] [ deckButton "deck-edit-button"
+                                  (Edit deck)
+                                  (Icons.edit gray 24)
+                     ]
+             ]
           )
         ]
       ]
+
+
+deckButton : String -> Msg -> Svg Msg -> Html Msg
+deckButton classes msg icon =
+    button [ class classes
+           , onClick msg ] [ icon ]

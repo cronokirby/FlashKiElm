@@ -6,9 +6,14 @@ import DeckList.Models exposing (Model)
 
 
 type Msg = Edit Deck
+         | Delete Deck
 
 update : Msg -> Model -> Model
-update msg model = model
+update msg model = case msg of
+    Delete deck ->
+        let deleted = remove deck model.list
+        in { model | list = deleted }
+    _ -> model
 
 
 {- Utility -}
@@ -21,3 +26,10 @@ createEdit deck =
         , rest = Maybe.withDefault [] (List.tail cards)
         , saved = deck
         , deckValidation = ""}
+
+
+remove : Deck -> List Deck -> List Deck
+remove deck =
+    List.filter (\{name, language} ->
+                    deck.name /= name
+                 || deck.language /= language )

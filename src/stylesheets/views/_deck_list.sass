@@ -26,8 +26,24 @@
 
 .deck-edit-button
     @extend .highlight-button
+    @extend .no_outline
     background-color: white
     border: none
+    float: right
 
-.deck-edit-button:hover
-    @extend .highlight-button:hover
+.deck-delete
+    text-align: center
+
+.deck-delete-button
+    @extend .no_outline
+    background-color: white
+    border: none
+    svg
+        width: 20px
+    path
+        fill: $ghost-grey
+
+.deck-delete-button:hover
+    svg
+        path
+            fill: $del-red
