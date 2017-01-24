@@ -5,7 +5,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
-import Material.Icons.Content exposing (add_box)
+import Material.Icons.Av as Icons exposing (library_add)
+import Material.Icons.Action as Icons exposing (list)
 
 import DeckList as DeckList exposing (..)
 import DeckEdit as DeckEdit exposing (..)
@@ -31,7 +32,7 @@ init : (Model, Cmd Msg)
 init =
     let deckList = DeckList.init
         deckEdit = DeckEdit.init
-    in (Model deckList deckEdit (ModelView deckListView) False, Cmd.none)
+    in (Model deckList deckEdit (ModelView deckEditView) False, Cmd.none)
 
 
 {- Update -}
@@ -89,14 +90,15 @@ view model =
     case model.currentView of
     ModelView currentView ->
       div []
-        [ div [ hidden model.editing
-              , class "nav-buttons"]
-            [ button [ class "nav-button"
+        [ div [ class "nav-buttons" ]
+            [ button [ hidden model.editing
+                     , class "nav-button"
                      , onClick (ChangeView False deckListView) ]
-                     [ text "Deck View" ]
-             , button [ class "nav-button"
-                      , onClick (ChangeView True deckEditView) ]
-                     [ add_box black 50 ]
+                     [ Icons.list black 40 ]
+            , button [ hidden model.editing
+                     , class "nav-button"
+                     , onClick (ChangeView True deckEditView) ]
+                     [ Icons.library_add black 40 ]
             ]
         , (currentView model) ]
 

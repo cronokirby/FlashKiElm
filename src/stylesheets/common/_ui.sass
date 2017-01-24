@@ -1,0 +1,27 @@
+@import colors
+
+.primary-font
+    font-family: "Verdana"
+    font-size: 18px
+    color: $grey
+
+.highlight-button
+    svg
+        width: 40px
+    path
+        fill: $ice-grey
+
+.highlight-button:hover
+    svg
+        path
+            fill: $light-blue
+
+.highlight-button:disabled
+    svg
+        path
+            fill: $grey
+
+.input:focus
+    outline: none
+    box-shadow: 0 0 2px rgba(81, 203, 238, 1)
+    border: solid 2px #9cb9cd

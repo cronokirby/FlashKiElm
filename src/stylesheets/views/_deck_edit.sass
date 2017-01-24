@@ -1,0 +1,70 @@
+@import colors
+@import ui
+
+$prev-margin: 10px
+$card-size: 200px
+$card-view-size: $card-size * 2 + 130 + $prev-margin
+
+.deckEdit-view
+    margin-left: 7px
+    width: $card-view-size + 20
+    height: 620px
+    border-right: solid 2px $dark-blue
+    border-left: solid 2px $dark-blue
+
+.deck-inputs
+    margin-left: 10px
+    height: 60px
+
+.deck-input
+    height: 30px
+    margin-top: 5px
+    margin-left: 5px
+
+.deck-input:focus
+    @extend .input
+
+.deck-save-button
+    @extend .highlight-button
+    vertical-align: center
+    float: right
+    background-color: white
+    border: none
+
+.card-view
+    width: $card-view-size
+
+.card-nav-button
+    @extend .highlight-button
+    height: 200px
+    background-color: white
+    border: none
+    svg
+    path
+        width: 20px
+
+.card-previous
+    float: left
+
+.card-next
+    float: right
+
+.card-input
+    margin-left: 10px
+    height: $card-size
+    width: $card-size
+    border: solid $light-blue 2px
+    text-align: center
+    @extend .primary-font
+
+.card-input:focus
+    outline: none
+    box-shadow: 0 0 8px rgba(81, 203, 238, 1)
+
+.card-front
+    border-top: solid $dark-blue 4px
+    border-left: solid $dark-blue 4px
+
+.card-back
+    border-bottom: solid $dark-blue 4px
+    border-right: solid $dark-blue 4px

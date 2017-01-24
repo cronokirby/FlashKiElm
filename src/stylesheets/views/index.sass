@@ -1,9 +1,13 @@
+@import colors
+@import ui
+
 @import deck_list
+@import deck_edit
 
 body
     font-family: "Verdana"
 
-$nav-height: 80px
+$nav-height: 60px
 
 .nav-buttons
     float: top
@@ -13,6 +17,7 @@ $nav-height: 80px
     border-bottom: solid 2px $dark-blue
 
 .nav-button
+    @extend .highlight-button
     vertical-align: bottom
     height: $nav-height
     width: $nav-height + 4
@@ -24,8 +29,7 @@ $nav-height: 80px
     border-top: solid 2px $dark-blue
     border-right: solid 2px $dark-blue
     border-left: solid 2px $dark-blue
-
     font-size: 16px
 
 .nav-button:hover
-    background-color: $dark-blue
+    @extend .highlight-button:hover
