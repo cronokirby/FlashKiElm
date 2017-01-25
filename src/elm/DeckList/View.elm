@@ -24,30 +24,24 @@ view model =
 
 viewDeck : Deck -> Html Msg
 viewDeck deck =
-    div []
-      [ table [ class "Deck" ]
-        [ thead []
-          [ tr []
-            [ th [] [ text "Name" ]
-            , td [] [ text "Language" ]
-            , td [ class "deck-delete" ]
-                 [ deckButton "deck-delete-button"
-                              (Delete deck)
-                              (Icons.delete gray 24)
-                 ]
-            ]
+    div [ class "Deck" ]
+      [ div [ class "deck-upper" ]
+          [ div []
+              [ deckButton "deck-edit-button"
+                           (Edit deck)
+                           (Icons.edit gray 24)
+              ]
+           , div [ class "deck-name deck-info" ] [ text deck.name ]
+           , div [ class "deck-language deck-info" ] [ text deck.language ]
           ]
-        , tbody []
-          (  List.map (\n -> td [] [span [] [text n]]) [deck.name, deck.language]
-          ++ [ td [] [ deckButton "deck-edit-button"
-                                  (Edit deck)
-                                  (Icons.edit gray 24)
-                     ]
-             ]
-          )
-        ]
-      ]
 
+      , div [ class "deck-lower" ]
+          [ deckButton "deck-delete-button"
+                (Delete deck)
+                (Icons.delete gray 24)
+          ]
+
+      ]
 
 deckButton : String -> Msg -> Svg Msg -> Html Msg
 deckButton classes msg icon =

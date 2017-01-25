@@ -10,19 +10,38 @@
     border-left: $dl-border
     border-right: $dl-border
 
+
 .Deck
+    width: 230px
+    height: 60px
     color: $grey
     padding: 4px
     margin-left: auto
     margin-right: auto
     margin-top: 14px
-    width: 25%
     border: solid 2px $light-blue
     border-left: solid thick $dark-blue
 
 
+.deck-upper
+    height: 30px
+    width: 230px
 
+.deck-lower
+    height: 50px
+    width: 230px
 
+.deck-info
+    margin-left: 10px
+    margin-right: 15px
+
+.deck-name
+    margin-top: 0px
+    font-weight: bold
+
+.deck-language
+    margin-top: 5px
+    font-style: italic
 
 .deck-edit-button
     @extend .highlight-button
@@ -32,10 +51,12 @@
     float: right
 
 .deck-delete
-    text-align: center
+    float: right
+
 
 .deck-delete-button
     @extend .no_outline
+    float: right
     background-color: white
     border: none
     svg
