@@ -6,7 +6,9 @@ import DeckList.Models exposing (Model)
 
 
 type Msg = Edit Deck
-         | Delete Deck
+         | Delete Deck   -- These 2 are handled in Update.elm,
+         | Study Deck    -- Because they cause a view change
+
 
 update : Msg -> Model -> Model
 update msg model = case msg of

@@ -24,7 +24,8 @@ view model =
 
 viewDeck : Deck -> Html Msg
 viewDeck deck =
-    div [ class "Deck" ]
+    div [ class "Deck"
+        , onDoubleClick <| Study deck ]
       [ div [ class "deck-upper" ]
           [ div []
               [ deckButton "deck-edit-button"

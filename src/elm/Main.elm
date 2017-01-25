@@ -4,6 +4,7 @@ import Html exposing (..)
 
 import DeckList.Models as DeckList
 import DeckEdit.Models as DeckEdit
+import Study.Models as Study
 
 import Models exposing (..)
 import Update exposing (update)
@@ -20,7 +21,8 @@ init : (Model, Cmd Msg)
 init =
     let deckList = DeckList.init
         deckEdit = DeckEdit.init
-    in (Model deckList deckEdit (ModelView deckListView) False, Cmd.none)
+        study = Study.emptyModel
+    in (Model deckList deckEdit study (ModelView deckListView) False, Cmd.none)
 
 
 subscriptions : Model -> Sub Msg

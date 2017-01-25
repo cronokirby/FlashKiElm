@@ -9,6 +9,7 @@ import Material.Icons.Action as Icons
 
 import DeckList.View as DeckList
 import DeckEdit.View as DeckEdit
+import Study.View as Study
 
 import Models exposing (..)
 
@@ -22,12 +23,17 @@ view model =
         [ div [ class "nav-buttons" ]
             [ button [ hidden model.editing
                      , class "nav-button"
+                     , onClick (ChangeView False studyView) ]
+                     [ Icons.library_add black 40 ]
+            , button [ hidden model.editing
+                     , class "nav-button"
                      , onClick (ChangeView False deckListView) ]
                      [ Icons.list black 40 ]
             , button [ hidden model.editing
                      , class "nav-button"
                      , onClick (ChangeView True deckEditView) ]
                      [ Icons.library_add black 40 ]
+
             ]
         , (currentView model) ]
 
@@ -37,3 +43,6 @@ deckListView model = Html.map DeckList (DeckList.view model.deckList)
 
 deckEditView : Model -> Html Msg
 deckEditView model = Html.map DeckEdit (DeckEdit.view model.deckEdit)
+
+studyView : Model -> Html Msg
+studyView model = Html.map Study (Study.view model.study)
