@@ -33,6 +33,8 @@ viewDeck deck =
               ]
            , div [ class "deck-name deck-info" ] [ text deck.name ]
            , div [ class "deck-language deck-info" ] [ text deck.language ]
+           , div [ class "deck-card_count deck-info"]
+                 [text <| toString (List.length deck.cards) ++ " cards" ]
           ]
 
       , div [ class "deck-lower" ]
