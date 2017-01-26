@@ -24,7 +24,7 @@ view model =
             [ button [ hidden model.editing
                      , class "nav-button"
                      , onClick (ChangeView False studyView) ]
-                     [ Icons.library_add black 40 ]
+                     [ Icons.book black 40 ]
             , button [ hidden model.editing
                      , class "nav-button"
                      , onClick (ChangeView False deckListView) ]
