@@ -18,7 +18,6 @@ view model =
               , placeholder "answer"
               , value model.input ]
               [ text model.input ]
-      , div [ value <| toString model ] [ text <| toString model ]
       ]
 
 

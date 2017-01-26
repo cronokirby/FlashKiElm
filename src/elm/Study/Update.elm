@@ -6,8 +6,8 @@ import Study.Models exposing (Model)
 
 
 type Msg = Input String
-         | Advance Card
-         | StudyFailed
+         | Advance Card Model  -- These 2 get passed a deck with failures updated
+         | StudyFailed Model
          | Leave
 
 
@@ -17,19 +17,19 @@ update msg model = case msg of
     Input string ->
         { model | input = string }
 
-    Advance next ->
-        let updated = updateFailed model
-            current = model.current
+    Advance next updated ->
+        let current = model.current
             rest = Maybe.withDefault [] <| List.tail model.rest
         in { updated |
                 current = next,
                 input = "",
                 rest = rest }
 
-    StudyFailed ->
-        studyFailed <| updateFailed model
+    StudyFailed updated ->
+        studyFailed updated
     Leave ->
         model
+
 
 updateFailed : Model -> Model
 updateFailed model =
@@ -49,15 +49,18 @@ studyFailed model =
                <| List.head failedOrder
         rest = Maybe.withDefault []
             <| List.tail failedOrder
-    in Model current "" rest [] False
+    in Model current "" rest []
 
 
+{- Failed cards need to be updated before checking if no failed cards are left;
+   this prevents the last card from "Leaving" if it's the only failed one -}
 nextCard : Model -> Msg
 nextCard model =
-    case List.head model.rest of
-        Nothing ->
-            if model.failed == []
-                then Leave
-                else StudyFailed
-        Just next ->
-            Advance next
+    let updated = updateFailed model
+    in case List.head model.rest of
+          Nothing ->
+              if updated.failed == []
+                  then Leave
+                  else StudyFailed updated
+          Just next ->
+              Advance next updated
