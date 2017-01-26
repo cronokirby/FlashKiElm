@@ -33,7 +33,6 @@ view model =
                      , class "nav-button"
                      , onClick (ChangeView True deckEditView) ]
                      [ Icons.library_add black 40 ]
-
             ]
         , (currentView model) ]
 

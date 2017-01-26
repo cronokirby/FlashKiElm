@@ -6,10 +6,11 @@ import DeckEdit.Models exposing (Card, Deck)
 type alias Model = { current : Card
                    , input : String
                    , rest : List Card
-                   , failed : List Card }
+                   , failed : List Card
+                   , leaving : Bool }
 
 emptyModel : Model
-emptyModel = Model (Card "" "") "" [] []
+emptyModel = Model (Card "" "") "" [] [] False
 
 
 fromDeck : Deck -> Model
@@ -19,4 +20,4 @@ fromDeck deck =
         rest = Maybe.withDefault [] <| List.tail cards
         failed = []
         input = ""
-    in Model current input rest failed
+    in Model current input rest failed False

@@ -5,6 +5,7 @@ import DeckList.Update as DeckList
 import DeckEdit.Models as DeckEdit
 import DeckEdit.Update as DeckEdit
 import Study.Models as Study
+import Study.Update as Study
 
 import Models exposing (..)
 import View exposing (..)
@@ -50,7 +51,14 @@ update msg model = case msg of
             in ( { model | deckEdit = deckEdit }, Cmd.none )
 
     Study msg -> case msg of
-        _ -> (model, Cmd.none)
+        Study.Leave ->
+            let study = Study.emptyModel
+            in ( { model |
+                    study = study,
+                    currentView = ModelView deckListView }, Cmd.none )
+        _ ->
+            let study = Study.update msg model.study
+            in ( { model | study = study }, Cmd.none )
 
     ChangeView editing newView ->
         ( { model | currentView = ModelView newView
