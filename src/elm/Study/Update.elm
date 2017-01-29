@@ -15,6 +15,7 @@ delay time msg =
   |> Task.perform identity
 
 type Msg = Input String
+         | CheckCard
          | Wait Msg
          | Advance Card Model  -- These 2 get passed a deck with failures updated
          | StudyFailed Model
@@ -24,11 +25,15 @@ type Msg = Input String
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
-    Input string ->
-        ({ model | input = string }, Cmd.none)
     Wait msg ->
         model
-        ! [ delay Time.second <| msg ]
+        ! [ delay (Time.second * 0.5) <| msg ]
+
+    Input string ->
+        ({ model | input = string }, Cmd.none)
+
+    CheckCard ->
+        (updateFailed model, Task.perform (Wait << nextCard) <| Task.succeed model )
     Advance next updated ->
         let current = model.current
             rest = Maybe.withDefault [] <| List.tail model.rest

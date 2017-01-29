@@ -34,7 +34,7 @@ studyView model =
       [ div [] [ text model.current.front ]
       , div []
           [ input [ onInput Input
-              , onEnter <| Wait <| nextCard model
+              , onEnter CheckCard
               , placeholder "answer"
               , value model.input ]
               [ text model.input ]
