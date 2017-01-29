@@ -17,7 +17,10 @@ view : Model -> Html Msg
 view model =
     div []
       [ deckInfo model
-      , studyView model
+      , case model.cardTest of
+          Redoing -> redoView model
+          _ -> studyView model
+      , text <| toString model
       ]
 
 
@@ -35,14 +38,13 @@ deckInfo model =
 cardCheckMark : CardTest -> Html Msg
 cardCheckMark cardTest =
     case cardTest of
-        None ->
-            div [] []
         Failed ->
             div [ class "failed-icon" ]
               [ Icons.clear red 40 ]
         Passed ->
             div [ class "passed-icon" ]
               [ Icons.done green 40 ]
+        _ -> div [] []
 
 
 studyView : Model -> Html Msg
@@ -59,6 +61,13 @@ studyView model =
       , cardCheckMark model.cardTest
       ]
 
+
+redoView : Model -> Html Msg
+redoView model =
+    div []
+      [ div [] [ text model.current.front ]
+      , div [] [ text model.current.back  ]
+      ]
 
 onEnter : Msg -> Attribute Msg
 onEnter msg =

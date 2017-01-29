@@ -6,7 +6,8 @@ import DeckEdit.Models exposing (Card, Deck, emptyDeck)
 type CardTest = None
               | Failed
               | Passed
-
+              | Redoing
+              
 type alias Model = { current : Card
                    , rest : List Card
                    , failed : List Card

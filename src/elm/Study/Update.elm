@@ -15,12 +15,12 @@ delay time msg =
   |> Task.perform identity
 
 type Msg = Input String
-         | CheckCard
-         | Wait Msg
-         | Advance Card Model  -- These 2 get passed a deck with failures updated
-         | StudyFailed Model
-         | Leave
-
+         | Wait Msg     -- Used to delay messages
+         | CheckCard    -- Updates the failures, and chooses a delayed message
+         | Redo
+         | Advance Card
+         | StudyFailed
+         | Leave        -- This gets caught in the main update, exiting this view
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -32,23 +32,33 @@ update msg model = case msg of
     Input string ->
         ({ model | input = string }, Cmd.none)
 
+    {- CheckCard will get triggered by the input, and has the responsibility of
+       updating the model in regards to failed answers -}
     CheckCard ->
-        (updateFailed model, Task.perform (Wait << nextCard) <| Task.succeed model )
-    Advance next updated ->
-        let current = model.current
-            rest = Maybe.withDefault [] <| List.tail model.rest
-        in ({ updated |
+        let updated = updateFailed model
+        in ( updated
+           , Task.perform (Wait << nextCard) <| Task.succeed updated )
+
+    Redo ->
+        ({ model | cardTest = Redoing }, Cmd.none)
+
+    Advance next ->
+        let rest = Maybe.withDefault [] <| List.tail model.rest
+        in ({ model |
                 current = next,
                 input = "",
                 cardTest = None,
                 rest = rest }, Cmd.none)
 
-    StudyFailed updated ->
-        (studyFailed updated, Cmd.none)
+    StudyFailed ->
+        (studyFailed model, Cmd.none)
+
     Leave ->
         (model, Cmd.none)
 
 
+{- Compares the answer with the back of the card, appends the card to the failed
+   stack if necessary, and changes CardTest, which is used to check this status -}
 updateFailed : Model -> Model
 updateFailed model =
     let current = model.current
@@ -78,15 +88,14 @@ studyFailed model =
             cardTest = None}
 
 
-{- Failed cards need to be updated before checking if no failed cards are left;
-   this prevents the last card from "Leaving" if it's the only failed one -}
 nextCard : Model -> Msg
 nextCard model =
-    let updated = updateFailed model
-    in case List.head model.rest of
-          Nothing ->
-              if updated.failed == []
-                  then Leave
-                  else StudyFailed updated
-          Just next ->
-              Advance next updated
+    case List.head model.rest of
+        Nothing ->
+            if model.failed == []
+                then Leave
+                else StudyFailed
+        Just next ->
+            if model.cardTest == Passed
+                then Advance next
+                else Redo
