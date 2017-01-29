@@ -7,12 +7,8 @@ import Task
 import DeckEdit.Models exposing (Card)
 
 import Study.Models exposing (CardTest(..), Model)
+import Utility.Time exposing(delay)
 
-delay : Time -> msg -> Cmd msg
-delay time msg =
-  Process.sleep time
-  |> Task.andThen (always <| Task.succeed msg)
-  |> Task.perform identity
 
 type Msg = Input String
          | Wait Msg     -- Used to delay messages
