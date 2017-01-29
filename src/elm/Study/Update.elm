@@ -6,7 +6,7 @@ import Task
 
 import DeckEdit.Models exposing (Card)
 
-import Study.Models exposing (Model)
+import Study.Models exposing (CardTest(..), Model)
 
 delay : Time -> msg -> Cmd msg
 delay time msg =
@@ -40,6 +40,7 @@ update msg model = case msg of
         in ({ updated |
                 current = next,
                 input = "",
+                cardTest = None,
                 rest = rest }, Cmd.none)
 
     StudyFailed updated ->
@@ -53,10 +54,13 @@ updateFailed model =
     let current = model.current
         answer = model.input
         incorrect = answer /= current.back
-        failed = if incorrect
-                    then current :: model.failed
-                    else model.failed
-    in { model | failed = failed }
+        (failed, cardTest) =
+            if incorrect
+                then (current :: model.failed, Failed)
+                else (model.failed, Passed)
+    in { model |
+            cardTest = cardTest,
+            failed = failed }
 
 
 studyFailed : Model -> Model
@@ -70,7 +74,8 @@ studyFailed model =
             current = current,
             rest = rest,
             failed = [],
-            input = ""}
+            input = "",
+            cardTest = None}
 
 
 {- Failed cards need to be updated before checking if no failed cards are left;

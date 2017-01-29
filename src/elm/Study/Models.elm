@@ -14,6 +14,7 @@ type alias Model = { current : Card
                    , input : String
                    , cardTest : CardTest }
 
+
 -- Fills out all the fields that don't depend on a deck
 default : Card -> List Card -> Deck -> Model
 default current rest deck =

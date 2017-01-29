@@ -1,11 +1,15 @@
 module Study.View exposing (..)
 
+import Color exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Json
 
-import Study.Models exposing (Model)
+import Material.Icons.Content as Icons
+import Material.Icons.Action as Icons
+
+import Study.Models exposing (CardTest(..), Model)
 import Study.Update exposing (Msg(..), nextCard)
 
 
@@ -28,6 +32,19 @@ deckInfo model =
       ]
 
 
+cardCheckMark : CardTest -> Html Msg
+cardCheckMark cardTest =
+    case cardTest of
+        None ->
+            div [] []
+        Failed ->
+            div [ class "failed-icon" ]
+              [ Icons.clear red 40 ]
+        Passed ->
+            div [ class "passed-icon" ]
+              [ Icons.done green 40 ]
+
+
 studyView : Model -> Html Msg
 studyView model =
     div []
@@ -39,6 +56,7 @@ studyView model =
               , value model.input ]
               [ text model.input ]
           ]
+      , cardCheckMark model.cardTest
       ]
 
 
