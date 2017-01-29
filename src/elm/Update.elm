@@ -30,7 +30,8 @@ update msg model = case msg of
             let study = Study.fromDeck deck
             in ( { model |
                     study = study,
-                    currentView = ModelView studyView }, Cmd.none )
+                    currentView = ModelView studyView,
+                    studying = True }, Cmd.none )
         _ ->
             let deckList = DeckList.update msg model.deckList
             in ( { model | deckList = deckList }, Cmd.none )
@@ -55,10 +56,11 @@ update msg model = case msg of
             let study = Study.emptyModel
             in ( { model |
                     study = study,
-                    currentView = ModelView deckListView }, Cmd.none )
+                    currentView = ModelView deckListView,
+                    studying = False }, Cmd.none )
         _ ->
-            let study = Study.update msg model.study
-            in ( { model | study = study }, Cmd.none )
+            let (study, cmd) = Study.update msg model.study
+            in ( { model | study = study }, Cmd.map Study cmd )
 
     ChangeView editing newView ->
         ( { model | currentView = ModelView newView

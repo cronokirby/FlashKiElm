@@ -21,7 +21,8 @@ view model =
     ModelView currentView ->
       div []
         [ div [ class "nav-buttons" ]
-            [ button [ hidden model.editing
+            [ button [ hidden <| model.editing
+                              || not model.studying
                      , class "nav-button"
                      , onClick (ChangeView False studyView) ]
                      [ Icons.book black 40 ]

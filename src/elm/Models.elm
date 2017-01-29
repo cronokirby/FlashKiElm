@@ -14,7 +14,8 @@ type alias Model = { deckList : DeckList.Model
                    , deckEdit : DeckEdit.Model
                    , study : Study.Model
                    , currentView : ModelView
-                   , editing : Bool }
+                   , editing : Bool
+                   , studying : Bool }
 
 type ModelView = ModelView (Model -> Html Msg)
 

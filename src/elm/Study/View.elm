@@ -12,12 +12,33 @@ import Study.Update exposing (Msg(..), nextCard)
 view : Model -> Html Msg
 view model =
     div []
+      [ deckInfo model
+      , studyView model
+      ]
+
+
+deckInfo : Model -> Html Msg
+deckInfo model =
+    div []
+      [ div [] [ text model.deck.name ]
+      , div [] [ text model.deck.language ]
+      , div [] [ text <| (toString <| List.length model.deck.cards)
+                      ++ " cards"
+               ]
+      ]
+
+
+studyView : Model -> Html Msg
+studyView model =
+    div []
       [ div [] [ text model.current.front ]
-      , input [ onInput Input
-              , onEnter <| nextCard model
+      , div []
+          [ input [ onInput Input
+              , onEnter <| Wait <| nextCard model
               , placeholder "answer"
               , value model.input ]
               [ text model.input ]
+          ]
       ]
 
 

@@ -1,34 +1,46 @@
 module Study.Update exposing (..)
 
+import Time exposing (..)
+import Process
+import Task
+
 import DeckEdit.Models exposing (Card)
 
 import Study.Models exposing (Model)
 
+delay : Time -> msg -> Cmd msg
+delay time msg =
+  Process.sleep time
+  |> Task.andThen (always <| Task.succeed msg)
+  |> Task.perform identity
 
 type Msg = Input String
+         | Wait Msg
          | Advance Card Model  -- These 2 get passed a deck with failures updated
          | StudyFailed Model
          | Leave
 
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
     Input string ->
-        { model | input = string }
-
+        ({ model | input = string }, Cmd.none)
+    Wait msg ->
+        model
+        ! [ delay Time.second <| msg ]
     Advance next updated ->
         let current = model.current
             rest = Maybe.withDefault [] <| List.tail model.rest
-        in { updated |
+        in ({ updated |
                 current = next,
                 input = "",
-                rest = rest }
+                rest = rest }, Cmd.none)
 
     StudyFailed updated ->
-        studyFailed updated
+        (studyFailed updated, Cmd.none)
     Leave ->
-        model
+        (model, Cmd.none)
 
 
 updateFailed : Model -> Model
@@ -49,7 +61,11 @@ studyFailed model =
                <| List.head failedOrder
         rest = Maybe.withDefault []
             <| List.tail failedOrder
-    in Model current "" rest []
+    in {model |
+            current = current,
+            rest = rest,
+            failed = [],
+            input = ""}
 
 
 {- Failed cards need to be updated before checking if no failed cards are left;

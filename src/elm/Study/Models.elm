@@ -1,22 +1,24 @@
 module Study.Models exposing (..)
 
-import DeckEdit.Models exposing (Card, Deck)
+import DeckEdit.Models exposing (Card, Deck, emptyDeck)
 
 
 type alias Model = { current : Card
-                   , input : String
                    , rest : List Card
-                   , failed : List Card }
+                   , failed : List Card
+                   , deck : Deck
+                   , input : String }
 
 emptyModel : Model
-emptyModel = Model (Card "" "") "" [] []
+emptyModel = Model (Card "" "") [] [] emptyDeck ""
 
 
 fromDeck : Deck -> Model
 fromDeck deck =
     let cards = deck.cards
-        current = Maybe.withDefault (Card "" "") <| List.head cards
-        rest = Maybe.withDefault [] <| List.tail cards
-        failed = []
-        input = ""
-    in Model current input rest failed
+    in  { current = Maybe.withDefault (Card "" "") <| List.head cards
+        , rest = Maybe.withDefault [] <| List.tail cards
+        , failed = []
+        , deck = deck
+        , input = ""
+        }

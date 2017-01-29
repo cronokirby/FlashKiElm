@@ -22,7 +22,7 @@ init =
     let deckList = DeckList.init
         deckEdit = DeckEdit.init
         study = Study.emptyModel
-    in (Model deckList deckEdit study (ModelView deckListView) False, Cmd.none)
+    in (Model deckList deckEdit study (ModelView deckListView) False False, Cmd.none)
 
 
 subscriptions : Model -> Sub Msg
