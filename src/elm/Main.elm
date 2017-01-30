@@ -8,7 +8,7 @@ import Study.Models as Study
 
 import Models exposing (..)
 import Update exposing (update)
-import View exposing (view, deckListView)
+import View exposing (view, deckListView, studyView)
 
 main : Program Never Model Msg
 main = Html.program { init = init
@@ -21,8 +21,8 @@ init : (Model, Cmd Msg)
 init =
     let deckList = DeckList.init
         deckEdit = DeckEdit.init
-        study = Study.emptyModel
-    in (Model deckList deckEdit study (ModelView deckListView) False False, Cmd.none)
+        study = Study.debug
+    in (Model deckList deckEdit study (ModelView studyView) False False, Cmd.none)
 
 
 subscriptions : Model -> Sub Msg

@@ -1,0 +1,141 @@
+@import colors
+@import ui
+
+.study
+    margin-left: auto
+    margin-right: auto
+    width: 700
+    height: 620
+    border-left: solid $dark-blue 3px
+    border-right: solid $dark-blue 3px
+
+
+.study-deckinfo
+    padding-top: 20px
+    border-bottom: solid $light-blue 3px
+    height: 50
+    font-size: 24
+    background-color: #8fcae4
+    color: #252c42
+
+.study-deckname
+    float: left
+    max-width: 300px
+    margin-left: 20px
+    font-weight: bold
+
+.study-decklang
+    float: left
+    max-width: 100px
+    margin-left: 30px
+    font-style: italic
+
+.study-cardcount,
+    float: right
+    margin-right: 10px
+    font-size: 22px
+    font-weight: thin
+
+
+.study-view
+    margin-top: 50px
+
+$inputmargin: 150px
+.study-card-front
+    margin-left: $inputmargin
+    font-size: 34px
+    color: #323845
+
+.study-input-div
+    margin-top: 20px
+    margin-left: $inputmargin
+
+.study-input
+    @extend .input
+    padding-left: 15px
+    height: 50px
+    font-size: 28px
+    border: solid $ice-grey 2px
+    border-radius: 8px
+
+.study-input:focus
+    outline: none
+    box-shadow: 0 0 4px rgba(81, 203, 238, 1)
+    border: solid 2px #9cb9cd
+
+
+._check-icon
+    float: right
+    margin-top: 15px
+    margin-right: 110px
+
+.failed-icon
+    @extend ._check-icon
+
+.passed-icon
+    @extend ._check-icon
+
+.Failed
+    box-shadow: 0 0 20px rgba(238, 81, 81, 1)
+
+.Failed:focus
+    border: solid 2px #df1010
+    box-shadow: 0 0 20px rgba(238, 81, 81, 1)
+
+.Passed
+    box-shadow: 0 0 20px rgba(81, 238, 163, 1)
+
+.Passed:focus
+    border: solid 2px #15ad4d
+    box-shadow: 0 0 20px rgba(81, 238, 163, 1)
+
+
+// Redo view
+
+.redo-view
+    margin-top: 50px
+
+.redo-cardfront
+    @extend .study-card-front
+    margin-left: 120px
+    padding-top: 2px
+    padding-left: 20px
+    border-left: solid 4px $dark-blue
+    border-top: solid 2px $light-blue
+    width: 200px
+
+.redo-cardback
+    @extend .study-card-front
+    width: 200px
+    text-align: right
+    float: right
+    margin-top: 30px
+    margin-right: 150px
+    padding-right: 20px
+    padding-bottom: 5px
+    border-right: solid 4px $dark-blue
+    border-bottom: solid 2px $light-blue
+
+
+.redo-input-div
+    @extend .study-input-div
+
+
+.redo-input
+    @extend .study-input
+    margin-top: 40px
+
+.Failing
+    @extend .Failed
+
+.PartMatch
+    box-shadow: 0 0 20px rgba(81, 220, 238, 1)
+
+.PartMatch:focus
+    border: solid 2px #15a0ad
+    box-shadow: 0 0 20px rgba(81, 220, 238, 1)
+
+.FullMatch
+    @extend .Passed
+
+.FullMatch:focus

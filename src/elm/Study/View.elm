@@ -15,7 +15,7 @@ import Study.Update exposing (Msg(..), nextCard, submitRedo)
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [class "study"]
       [ deckInfo model
       , case model.cardTest of
           Redoing -> redoView model
@@ -26,12 +26,14 @@ view model =
 
 deckInfo : Model -> Html Msg
 deckInfo model =
-    div []
-      [ div [] [ text model.deck.name ]
-      , div [] [ text model.deck.language ]
-      , div [] [ text <| (toString <| List.length model.deck.cards)
-                      ++ " cards"
-               ]
+    div [class "study-deckinfo"]
+      [ div [class "study-cardcount"]
+          [ text <| (toString <| List.length model.deck.cards)
+                 ++ " cards"
+          ]
+      , div [class "study-deckname"] [ text model.deck.name ]
+      , div [class "study-decklang"] [ text model.deck.language ]
+
       ]
 
 
@@ -40,36 +42,37 @@ cardCheckMark cardTest =
     case cardTest of
         Failed ->
             div [ class "failed-icon" ]
-              [ Icons.clear red 40 ]
+              [ Icons.clear red 60 ]
         Passed ->
             div [ class "passed-icon" ]
-              [ Icons.done green 40 ]
+              [ Icons.done green 60 ]
         _ -> div [] []
 
 
 studyView : Model -> Html Msg
 studyView model =
-    div []
-      [ div [] [ text model.current.front ]
-      , div []
-          [ input [ onInput Input
-              , onEnter CheckCard
-              , placeholder "answer"
-              , value model.input
-              , class <| toString model.redoStatus ]
+    div [class "study-view"]
+      [ div [class "study-card-front"] [ text model.current.front ]
+      , cardCheckMark model.cardTest
+      , div [ class "study-input-div " ]
+          [ input [ class <| "study-input " ++ toString model.cardTest
+                  , onInput Input
+                  , onEnter CheckCard
+                  , placeholder "answer"
+                  , value model.input ]
               [ text model.input ]
           ]
-      , cardCheckMark model.cardTest
       ]
 
 
 redoView : Model -> Html Msg
 redoView model =
-    div []
-      [ div [] [ text model.current.front ]
-      , div [] [ text model.current.back  ]
-      , div [ class <| toString model.redoStatus ]
-          [ input [ onInput Input
+    div [class "redo-view"]
+      [ div [class "redo-cardfront"] [ text model.current.front ]
+      , div [class "redo-cardback"] [ text model.current.back  ]
+      , div [ class "redo-input-div"]
+        [ input [ class <| "redo-input " ++ toString model.redoStatus
+                  , onInput Input
                   , onEnter <| submitRedo model
                   , value model.input ]
                   [ text model.input ]
