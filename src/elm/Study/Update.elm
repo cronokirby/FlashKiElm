@@ -10,6 +10,7 @@ import Utility.Time exposing(delay)
 
 
 type Msg = Input String
+         | Delay Model Msg -- Used to delay messages but carry a partially updated model
          | Wait Msg     -- Used to delay messages
          | CheckCard    -- Updates the failures, and chooses a delayed message
          | Redo
@@ -19,17 +20,21 @@ type Msg = Input String
          | Leave        -- This gets caught in the main update, exiting this view
 
 
+delayMsg : Model -> Msg -> (Model, Cmd Msg)
+delayMsg model msg =
+    model ! [ delay (Time.second * 0.5)  <| msg ]
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
     Wait msg ->
-        model
-        ! [ delay (Time.second * 0.5) <| msg ]
-
+        delayMsg model msg
+    Delay newModel msg ->
+        delayMsg newModel msg
     Input string ->
-        let cmd = case model.cardTest of
-            Redoing ->
+        let cmd = if model.redoing
+            then
                 Task.perform (\_ -> UpdateRedo) <| Task.succeed 0
-            _ ->
+            else
                 Cmd.none
         in ({ model | input = string }, cmd)
 
@@ -45,7 +50,8 @@ update msg model = case msg of
 
     Redo ->
         ({ model | input = ""
-                 , cardTest = Redoing
+                 , cardTest = None
+                 , redoing = True
                  , redoStatus = PartMatch }, Cmd.none)
 
     Advance next ->
@@ -54,6 +60,7 @@ update msg model = case msg of
                 current = next,
                 input = "",
                 cardTest = None,
+                redoing = False,
                 rest = rest }, Cmd.none)
 
     StudyFailed ->
@@ -91,7 +98,8 @@ studyFailed model =
             rest = rest,
             failed = [],
             input = "",
-            cardTest = None}
+            cardTest = None,
+            redoing = False }
 
 
 nextCard : Model -> Msg
@@ -124,5 +132,7 @@ isMatching model =
 
 submitRedo : Model -> Msg
 submitRedo model = case model.redoStatus of
-    FullMatch -> Wait <| nextCard model
+    FullMatch ->
+        let updated = { model | redoStatus = Submitted }
+        in Delay updated <| nextCard model
     _ -> UpdateRedo

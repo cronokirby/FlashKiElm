@@ -9,7 +9,7 @@ import Json.Decode as Json
 import Material.Icons.Content as Icons
 import Material.Icons.Action as Icons
 
-import Study.Models exposing (CardTest(..), Model)
+import Study.Models exposing (CardTest(..), Model, RedoStatus(..))
 import Study.Update exposing (Msg(..), nextCard, submitRedo)
 
 
@@ -17,9 +17,9 @@ view : Model -> Html Msg
 view model =
     div [class "study"]
       [ deckInfo model
-      , case model.cardTest of
-          Redoing -> redoView model
-          _ -> studyView model
+      , if model.redoing
+          then redoView model
+          else studyView model
       --, text <| toString model
       ]
 
@@ -37,23 +37,32 @@ deckInfo model =
       ]
 
 
-cardCheckMark : CardTest -> Html Msg
-cardCheckMark cardTest =
-    case cardTest of
-        Failed ->
+checkMark : (a -> Maybe Bool) -> a -> Html Msg
+checkMark f a =
+    case f a of
+        Just False ->
             div [ class "failed-icon" ]
               [ Icons.clear red 60 ]
-        Passed ->
+        Just True ->
             div [ class "passed-icon" ]
               [ Icons.done green 60 ]
         _ -> div [] []
+
+cardTestTriple : CardTest -> Maybe Bool
+cardTestTriple cardtest = case cardtest of
+        Passed -> Just True
+        Failed -> Just False
+        _ -> Nothing
+
+studyCheckMark : CardTest -> Html Msg
+studyCheckMark = checkMark cardTestTriple
 
 
 studyView : Model -> Html Msg
 studyView model =
     div [class "study-view"]
       [ div [class "study-card-front"] [ text model.current.front ]
-      , cardCheckMark model.cardTest
+      , studyCheckMark model.cardTest
       , div [ class "study-input-div " ]
           [ input [ class <| "study-input " ++ toString model.cardTest
                   , onInput Input
@@ -63,6 +72,15 @@ studyView model =
               [ text model.input ]
           ]
       ]
+
+
+redoStatusTriple : RedoStatus -> Maybe Bool
+redoStatusTriple status = case status of
+    Submitted -> Just True
+    _ -> Nothing
+
+redoCheckMark : RedoStatus -> Html Msg
+redoCheckMark = checkMark redoStatusTriple
 
 
 redoView : Model -> Html Msg
@@ -77,6 +95,7 @@ redoView model =
                   , value model.input ]
                   [ text model.input ]
           ]
+      , redoCheckMark model.redoStatus
       ]
 
 
