@@ -10,7 +10,7 @@ import Material.Icons.Content as Icons
 import Material.Icons.Action as Icons
 
 import Study.Models exposing (CardTest(..), Model)
-import Study.Update exposing (Msg(..), nextCard)
+import Study.Update exposing (Msg(..), nextCard, submitRedo)
 
 
 view : Model -> Html Msg
@@ -20,7 +20,7 @@ view model =
       , case model.cardTest of
           Redoing -> redoView model
           _ -> studyView model
-      , text <| toString model
+      --, text <| toString model
       ]
 
 
@@ -55,7 +55,8 @@ studyView model =
           [ input [ onInput Input
               , onEnter CheckCard
               , placeholder "answer"
-              , value model.input ]
+              , value model.input
+              , class <| toString model.redoStatus ]
               [ text model.input ]
           ]
       , cardCheckMark model.cardTest
@@ -67,7 +68,14 @@ redoView model =
     div []
       [ div [] [ text model.current.front ]
       , div [] [ text model.current.back  ]
+      , div [ class <| toString model.redoStatus ]
+          [ input [ onInput Input
+                  , onEnter <| submitRedo model
+                  , value model.input ]
+                  [ text model.input ]
+          ]
       ]
+
 
 onEnter : Msg -> Attribute Msg
 onEnter msg =

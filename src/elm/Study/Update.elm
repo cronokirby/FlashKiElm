@@ -1,12 +1,11 @@
 module Study.Update exposing (..)
 
 import Time exposing (..)
-import Process
 import Task
 
 import DeckEdit.Models exposing (Card)
 
-import Study.Models exposing (CardTest(..), Model)
+import Study.Models exposing (CardTest(..), Model, RedoStatus(..))
 import Utility.Time exposing(delay)
 
 
@@ -14,6 +13,7 @@ type Msg = Input String
          | Wait Msg     -- Used to delay messages
          | CheckCard    -- Updates the failures, and chooses a delayed message
          | Redo
+         | UpdateRedo
          | Advance Card
          | StudyFailed
          | Leave        -- This gets caught in the main update, exiting this view
@@ -26,8 +26,16 @@ update msg model = case msg of
         ! [ delay (Time.second * 0.5) <| msg ]
 
     Input string ->
-        ({ model | input = string }, Cmd.none)
+        let cmd = case model.cardTest of
+            Redoing ->
+                Task.perform (\_ -> UpdateRedo) <| Task.succeed 0
+            _ ->
+                Cmd.none
+        in ({ model | input = string }, cmd)
 
+    UpdateRedo ->
+        let redoStatus = isMatching model
+        in ({model | redoStatus = redoStatus }, Cmd.none)
     {- CheckCard will get triggered by the input, and has the responsibility of
        updating the model in regards to failed answers -}
     CheckCard ->
@@ -36,7 +44,9 @@ update msg model = case msg of
            , Task.perform (Wait << nextCard) <| Task.succeed updated )
 
     Redo ->
-        ({ model | cardTest = Redoing }, Cmd.none)
+        ({ model | input = ""
+                 , cardTest = Redoing
+                 , redoStatus = PartMatch }, Cmd.none)
 
     Advance next ->
         let rest = Maybe.withDefault [] <| List.tail model.rest
@@ -85,13 +95,34 @@ studyFailed model =
 
 
 nextCard : Model -> Msg
-nextCard model =
+nextCard model = case model.cardTest of
+    Failed ->
+        Redo
+    _ ->
     case List.head model.rest of
         Nothing ->
             if model.failed == []
                 then Leave
                 else StudyFailed
         Just next ->
-            if model.cardTest == Passed
-                then Advance next
-                else Redo
+            Advance next
+
+
+isMatching : Model -> RedoStatus
+isMatching model =
+    let answer = model.input
+        cardBack = model.current.back
+        answerLength = String.length answer
+        mustMatch = cardBack |> String.left answerLength
+        conditions = ( answer == mustMatch
+                     , answerLength == String.length cardBack)
+    in case conditions of
+        (False, _)    -> Failing
+        (True, False) -> PartMatch
+        (True, True)  -> FullMatch
+
+
+submitRedo : Model -> Msg
+submitRedo model = case model.redoStatus of
+    FullMatch -> Wait <| nextCard model
+    _ -> UpdateRedo
