@@ -1,7 +1,7 @@
 module Models exposing (..)
 
 import Html exposing (..)
-import Json.Encode exposing (..)
+
 
 import DeckEdit.Models as DeckEdit exposing (..)
 import DeckEdit.Update as DeckEdit exposing (..)
@@ -24,24 +24,3 @@ type Msg = DeckList DeckList.Msg
          | DeckEdit DeckEdit.Msg
          | Study Study.Msg
          | ChangeView Bool (Model -> Html Msg)
-
-
-type alias Storage = { deckList : DeckList.Model
-                     , deckEdit : DeckEdit.Model
-                     , study : Study.Model }
-
-
-store : Model -> Storage
-store {deckList, deckEdit, study} =
-    Storage deckList deckEdit study
-
-
-{-To note that the serialization here is only used for storing the session-}
-serialize : Model -> Value
-serialize model =
-    let {deckList, deckEdit, study} = store model
-    in Json.Encode.object
-        [ ("deckList", DeckList.serialize deckList)
-        , ("deckEdit", DeckEdit.serialize deckEdit)
-        , ("study", Study.serialize study)
-        ]

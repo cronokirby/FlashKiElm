@@ -12,7 +12,7 @@ import DeckEdit.View as DeckEdit
 import Study.View as Study
 
 import Models exposing (..)
-
+import Storage exposing (serialize)
 
 -- Chosen to be able to switch views with a button
 view : Model -> Html Msg
