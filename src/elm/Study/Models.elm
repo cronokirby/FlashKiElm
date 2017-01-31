@@ -1,8 +1,14 @@
 module Study.Models exposing (..)
 
-import DeckEdit.Models exposing (Card, Deck, emptyDeck)
+import Json.Encode exposing (..)
 
-type RedoStatus = PartMatch | FullMatch | Failing | Submitted
+import DeckEdit.Models exposing  ( Card, Deck, emptyDeck
+                                 , serializeCard, serializeCards, serializeDeck)
+
+type RedoStatus = PartMatch
+                | FullMatch
+                | Failing
+                | Submitted
 
 type CardTest = None
               | Failed
@@ -45,3 +51,24 @@ fromDeck deck =
         current = Maybe.withDefault (Card "" "") <| List.head cards
         rest = Maybe.withDefault [] <| List.tail cards
     in  default current rest deck
+
+
+serialize : Model -> Value
+serialize { current
+          , rest
+          , failed
+          , deck
+          , input
+          , cardTest
+          , redoing
+          , redoStatus} =
+        object
+            [ ("current", serializeCard current)
+            , ("rest", serializeCards rest)
+            , ("failed", serializeCards failed)
+            , ("deck", serializeDeck deck)
+            , ("input", string input)
+            , ("cardTest", string <| toString cardTest)
+            , ("redoing", bool redoing)
+            , ("redoStatus", string <| toString redoStatus)
+            ]

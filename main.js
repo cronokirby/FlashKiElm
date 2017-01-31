@@ -3,6 +3,7 @@ const electron = require('electron')
 
 const app = electron.app // this is our app
 const BrowserWindow = electron.BrowserWindow // This is a Module that creates windows
+const ipcMain = electron.ipcMain
 
 let mainWindow // saves a global reference to mainWindow so it doesn't get garbage collected
 
@@ -36,4 +37,9 @@ app.on('window-all-closed', () => {
 // if there is no mainWindow it creates one (like when you click the dock icon)
 app.on('activate', () => {
   if (mainWindow === null) { createWindow() }
+})
+
+ipcMain.on('ping', (event, arg) => {
+    console.log(arg);
+    event.returnValue = 'pong';
 })

@@ -37,25 +37,23 @@ deckInfo model =
       ]
 
 
-checkMark : (a -> Maybe Bool) -> a -> Html Msg
-checkMark f a =
-    case f a of
-        Just False ->
-            div [ class "failed-icon" ]
-              [ Icons.clear red 60 ]
-        Just True ->
-            div [ class "passed-icon" ]
-              [ Icons.done green 60 ]
-        _ -> div [] []
+passedIcon : Html Msg
+passedIcon =
+    div [ class "passed-icon" ]
+        [ Icons.done green 60 ]
 
-cardTestTriple : CardTest -> Maybe Bool
-cardTestTriple cardtest = case cardtest of
-        Passed -> Just True
-        Failed -> Just False
-        _ -> Nothing
+failedIcon : Html Msg
+failedIcon =
+    div [ class "failed-icon" ]
+        [ Icons.clear red 60 ]
+
+
 
 studyCheckMark : CardTest -> Html Msg
-studyCheckMark = checkMark cardTestTriple
+studyCheckMark cardtest = case cardtest of
+    Passed -> passedIcon
+    Failed -> failedIcon
+    _ -> div [] []
 
 
 studyView : Model -> Html Msg
@@ -74,14 +72,10 @@ studyView model =
       ]
 
 
-redoStatusTriple : RedoStatus -> Maybe Bool
-redoStatusTriple status = case status of
-    Submitted -> Just True
-    _ -> Nothing
-
 redoCheckMark : RedoStatus -> Html Msg
-redoCheckMark = checkMark redoStatusTriple
-
+redoCheckMark status = case status of
+    Submitted -> passedIcon
+    _ -> div [] []
 
 redoView : Model -> Html Msg
 redoView model =

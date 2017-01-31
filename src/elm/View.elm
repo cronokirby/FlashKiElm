@@ -35,7 +35,8 @@ view model =
                      , onClick (ChangeView True deckEditView) ]
                      [ Icons.library_add black 40 ]
             ]
-        , (currentView model) ]
+        , (currentView model)
+        , div [ hidden True ] [ text <| toString <|serialize model]]
 
 
 deckListView : Model -> Html Msg
