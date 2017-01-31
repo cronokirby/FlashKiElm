@@ -2,6 +2,7 @@ module Models exposing (..)
 
 import Html exposing (..)
 
+import Json.Encode exposing (Value)
 
 import DeckEdit.Models as DeckEdit exposing (..)
 import DeckEdit.Update as DeckEdit exposing (..)
@@ -14,9 +15,10 @@ import Study.Update as Study exposing (..)
 type alias Model = { deckList : DeckList.Model
                    , deckEdit : DeckEdit.Model
                    , study : Study.Model
-                   , currentView : ModelView
                    , editing : Bool
-                   , studying : Bool }
+                   , studying : Bool
+                   , deb : Value
+                   , currentView : ModelView }
 
 type ModelView = ModelView (Model -> Html Msg)
 

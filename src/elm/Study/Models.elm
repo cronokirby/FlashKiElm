@@ -32,6 +32,7 @@ debug =
     , failed = []
     , redoStatus = PartMatch }
 
+
 -- Fills out all the fields that don't depend on a deck
 default : Card -> List Card -> Deck -> Model
 default current rest deck =

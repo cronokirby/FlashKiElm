@@ -12,7 +12,8 @@ import DeckEdit.View as DeckEdit
 import Study.View as Study
 
 import Models exposing (..)
-import Storage exposing (serialize)
+import Storage exposing (..)
+
 
 -- Chosen to be able to switch views with a button
 view : Model -> Html Msg
@@ -36,7 +37,8 @@ view model =
                      [ Icons.library_add black 40 ]
             ]
         , (currentView model)
-        , div [ hidden True ] [ text <| toString <|serialize model]]
+        , text <| toString <| fromJson model.deb
+        ]
 
 
 deckListView : Model -> Html Msg
