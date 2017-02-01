@@ -10,7 +10,7 @@ serializeCard : Card -> Value
 serializeCard {front, back} =
     object
         [ ("front", string front)
-        , ("back", string front)
+        , ("back", string back)
         ]
 
 serializeCards : List Card -> Value

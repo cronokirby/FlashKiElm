@@ -12,7 +12,6 @@ import DeckEdit.View as DeckEdit
 import Study.View as Study
 
 import Models exposing (..)
-import Storage exposing (..)
 
 
 -- Chosen to be able to switch views with a button
@@ -37,7 +36,6 @@ view model =
                      [ Icons.library_add black 40 ]
             ]
         , (currentView model)
-        , text <| toString <| serialize model
         ]
 
 
