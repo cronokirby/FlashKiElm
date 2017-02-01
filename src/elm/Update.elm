@@ -9,6 +9,8 @@ import Study.Update as Study
 
 import Models exposing (..)
 import View exposing (..)
+import Storage exposing (serialize)
+import OnQuit exposing (..)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -65,3 +67,6 @@ update msg model = case msg of
     ChangeView editing newView ->
         ( { model | currentView = ModelView newView
                   , editing = editing }, Cmd.none )
+
+    SaveModel ->
+        (model, sendModel <| serialize model)

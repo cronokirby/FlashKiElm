@@ -7,9 +7,5 @@
 
   <body>
     <div id='container'></div>
-    <script>
-        var {ipcRenderer} = require('electron')
-        console.log(ipcRenderer.sendSync('ping', 'ping'))
-    </script>
     <script src='../../dist/bundle.js'></script>
 </html>

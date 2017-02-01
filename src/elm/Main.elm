@@ -7,7 +7,7 @@ import Models exposing (..)
 import Update exposing (update)
 import View exposing (view, deckListView, studyView)
 import Storage exposing (load)
-
+import OnQuit exposing (..)
 
 main : Program Value Model Msg
 main = Html.programWithFlags
@@ -23,4 +23,5 @@ init json =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ = Sub.none
+subscriptions _ =
+    onQuit (\_ -> SaveModel)

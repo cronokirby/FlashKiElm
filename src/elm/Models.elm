@@ -26,3 +26,4 @@ type Msg = DeckList DeckList.Msg
          | DeckEdit DeckEdit.Msg
          | Study Study.Msg
          | ChangeView Bool (Model -> Html Msg)
+         | SaveModel

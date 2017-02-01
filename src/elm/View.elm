@@ -37,7 +37,7 @@ view model =
                      [ Icons.library_add black 40 ]
             ]
         , (currentView model)
-        , text <| toString <| fromJson model.deb
+        , text <| toString <| serialize model
         ]
 
 
